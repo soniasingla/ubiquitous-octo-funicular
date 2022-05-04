@@ -15,28 +15,29 @@ import (
 	"github.com/username/hello/x/hello/types"
 )
 
-func (k Keeper) AppendPost(ctx, sdk.Context, post types.Post) uint64 {
+func (k Keeper) AppendPost(ctx sdk.Context, post types.Post) uint64 {
 	count := k.GetPostCount(ctx)
-	post.id = count
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), []bytes(types.PostKey))
-	bytekey := make([]byte, binary.BigEndian.Uint64(bytekey,post.Id))
+	post.Id = count
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.PostKey))
+	byteKey := make([]byte, 8)
+	binary.BigEndian.PutUint64(byteKey, post.Id)
 	appendedValue := k.cdc.MustMarshal(&post)
-	store.key(bytekey, appendedValue)
+	store.Set(byteKey, appendedValue)
 	k.SetPostCount(ctx, count+1)
 	return count
 }
 
-func (k keeper) GetPostCount(ctx.sdk.Context) uint64{
+func (k Keeper) GetPostCount(ctx sdk.Context) uint64 {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.PostCountKey))
 	byteKey := []byte(types.PostCountKey)
 	bz := store.Get(byteKey)
 	if bz == nil {
 		return 0
 	}
-	return binary.BigEndian.uint64(bz);
+	return binary.BigEndian.Uint64(bz)
 }
 
-func (k Keeper) SetPostCount(ctx.sdk.context, count uint64){
+func (k Keeper) SetPostCount(ctx sdk.Context, count uint64) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.PostCountKey))
 	byteKey := []byte(types.PostCountKey)
 	bz := make([]byte, 8)
