@@ -1,6 +1,6 @@
-syntax = "proto3"
+syntax = "proto3";
 package username.hello.hello;
-option go_package = "github.com/username/hello/x/hello/types"
+option go_package = "github.com/username/hello/x/hello/types";
 
 message Post{
     string creator = 1;
