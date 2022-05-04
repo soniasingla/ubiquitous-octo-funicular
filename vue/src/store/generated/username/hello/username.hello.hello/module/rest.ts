@@ -9,6 +9,11 @@
  * ---------------------------------------------------------------
  */
 
+export interface HelloMsgCreatePostResponse {
+  /** @format uint64 */
+  id?: string;
+}
+
 /**
  * Params defines the parameters for the module.
  */
@@ -20,6 +25,11 @@ export type HelloParams = object;
 export interface HelloQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: HelloParams;
+}
+
+export interface HelloQueryPostsResponse {
+  title?: string;
+  body?: string;
 }
 
 export interface ProtobufAny {
@@ -240,6 +250,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryParams = (params: RequestParams = {}) =>
     this.request<HelloQueryParamsResponse, RpcStatus>({
       path: `/username/hello/hello/params`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryPosts
+   * @summary Queries a list of Posts items.
+   * @request GET:/username/hello/hello/posts
+   */
+  queryPosts = (params: RequestParams = {}) =>
+    this.request<HelloQueryPostsResponse, RpcStatus>({
+      path: `/username/hello/hello/posts`,
       method: "GET",
       format: "json",
       ...params,

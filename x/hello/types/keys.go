@@ -14,7 +14,9 @@ const (
 	QuerierRoute = ModuleName
 
 	// MemStoreKey defines the in-memory store key
-	MemStoreKey = "mem_hello"
+	MemStoreKey  = "mem_hello"
+	PostKey      = "Post-value-"
+	PostCountKey = "Post-count-"
 )
 
 func KeyPrefix(p string) []byte {
